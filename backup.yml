@@ -1,0 +1,441 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2020-03-09T03:50:54Z"
+    labels:
+      app: php-helloworld
+    name: php-helloworld
+    namespace: do288-apps
+    resourceVersion: "60406104"
+    selfLink: /api/v1/namespaces/do288-apps/services/php-helloworld
+    uid: 2d7d1e27-61b9-11ea-a78e-06f2a67a1b16
+  spec:
+    clusterIP: 172.30.17.166
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: php-helloworld
+      deploymentconfig: php-helloworld
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2020-03-09T04:04:31Z"
+    labels:
+      app: php-helloworld
+    name: php-helloworld
+    namespace: do288-apps
+    resourceVersion: "60412812"
+    selfLink: /apis/route.openshift.io/v1/namespaces/do288-apps/routes/php-helloworld
+    uid: 1489dda2-61bb-11ea-8cc9-0a580a820004
+  spec:
+    host: php-helloworld-do288-apps.apps.ocp-ap3.prod.nextcle.com
+    port:
+      targetPort: 8080-tcp
+    subdomain: ""
+    to:
+      kind: Service
+      name: php-helloworld
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2020-03-09T04:04:32Z"
+        status: "True"
+        type: Admitted
+      host: php-helloworld-do288-apps.apps.ocp-ap3.prod.nextcle.com
+      routerCanonicalHostname: apps.ocp-ap3.prod.nextcle.com
+      routerName: default
+      wildcardPolicy: None
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2020-03-09T03:50:54Z"
+    generation: 3
+    labels:
+      app: php-helloworld
+    name: php-helloworld
+    namespace: do288-apps
+    resourceVersion: "60428188"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/do288-apps/deploymentconfigs/php-helloworld
+    uid: 2d6a74a3-61b9-11ea-a88d-0a580a800002
+  spec:
+    replicas: 2
+    revisionHistoryLimit: 10
+    selector:
+      app: php-helloworld
+      deploymentconfig: php-helloworld
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: php-helloworld
+          deploymentconfig: php-helloworld
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/do288-apps/php-helloworld@sha256:67e150aa5a9501aa9a8864062b397dea8314ab1c9734d5bfae47dae0372bfbf9
+          imagePullPolicy: Always
+          name: php-helloworld
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - php-helloworld
+        from:
+          kind: ImageStreamTag
+          name: php-helloworld:latest
+          namespace: do288-apps
+        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/do288-apps/php-helloworld@sha256:67e150aa5a9501aa9a8864062b397dea8314ab1c9734d5bfae47dae0372bfbf9
+      type: ImageChange
+  status:
+    availableReplicas: 2
+    conditions:
+    - lastTransitionTime: "2020-03-09T03:53:23Z"
+      lastUpdateTime: "2020-03-09T03:53:34Z"
+      message: replication controller "php-helloworld-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2020-03-09T04:39:21Z"
+      lastUpdateTime: "2020-03-09T04:39:21Z"
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 1
+    observedGeneration: 3
+    readyReplicas: 2
+    replicas: 2
+    unavailableReplicas: 0
+    updatedReplicas: 2
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2020-03-09T03:46:28Z"
+    generation: 2
+    labels:
+      app: ubi-echo
+    name: ubi-echo
+    namespace: do288-apps
+    resourceVersion: "60404517"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/do288-apps/deploymentconfigs/ubi-echo
+    uid: 8ea727bc-61b8-11ea-a88d-0a580a800002
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: ubi-echo
+      deploymentconfig: ubi-echo
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: ubi-echo
+          deploymentconfig: ubi-echo
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/do288-apps/ubi-echo@sha256:25e7520397d73c418d63882023c7c81aabb0d59a11e789aa213f878ba5b9181a
+          imagePullPolicy: Always
+          name: ubi-echo
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ubi-echo
+        from:
+          kind: ImageStreamTag
+          name: ubi-echo:latest
+          namespace: do288-apps
+        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/do288-apps/ubi-echo@sha256:25e7520397d73c418d63882023c7c81aabb0d59a11e789aa213f878ba5b9181a
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2020-03-09T03:48:06Z"
+      lastUpdateTime: "2020-03-09T03:48:06Z"
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2020-03-09T03:47:56Z"
+      lastUpdateTime: "2020-03-09T03:48:07Z"
+      message: replication controller "ubi-echo-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2020-03-09T03:50:54Z"
+    generation: 1
+    labels:
+      app: php-helloworld
+    name: php-helloworld
+    namespace: do288-apps
+    resourceVersion: "60407423"
+    selfLink: /apis/image.openshift.io/v1/namespaces/do288-apps/imagestreams/php-helloworld
+    uid: 2d45dc05-61b9-11ea-8cc9-0a580a820004
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/do288-apps/php-helloworld
+    publicDockerImageRepository: default-route-openshift-image-registry.apps.ocp-ap3.prod.nextcle.com/do288-apps/php-helloworld
+    tags:
+    - items:
+      - created: "2020-03-09T03:53:13Z"
+        dockerImageReference: image-registry.openshift-image-registry.svc:5000/do288-apps/php-helloworld@sha256:67e150aa5a9501aa9a8864062b397dea8314ab1c9734d5bfae47dae0372bfbf9
+        generation: 1
+        image: sha256:67e150aa5a9501aa9a8864062b397dea8314ab1c9734d5bfae47dae0372bfbf9
+      tag: latest
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/image.dockerRepositoryCheck: "2020-03-09T03:46:29Z"
+    creationTimestamp: "2020-03-09T03:46:28Z"
+    generation: 2
+    labels:
+      app: ubi-echo
+    name: ubi
+    namespace: do288-apps
+    resourceVersion: "60403560"
+    selfLink: /apis/image.openshift.io/v1/namespaces/do288-apps/imagestreams/ubi
+    uid: 8e7520f6-61b8-11ea-a9e2-0a580a810002
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: registry.access.redhat.com/ubi8/ubi:8.0
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/ubi8/ubi:8.0
+      generation: 2
+      importPolicy: {}
+      name: "8.0"
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/do288-apps/ubi
+    publicDockerImageRepository: default-route-openshift-image-registry.apps.ocp-ap3.prod.nextcle.com/do288-apps/ubi
+    tags:
+    - items:
+      - created: "2020-03-09T03:46:29Z"
+        dockerImageReference: registry.access.redhat.com/ubi8/ubi@sha256:8275e2ad7f458e329bdc8c0e7543cff1729998fe515a281d49638246de8e39ee
+        generation: 2
+        image: sha256:8275e2ad7f458e329bdc8c0e7543cff1729998fe515a281d49638246de8e39ee
+      tag: "8.0"
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2020-03-09T03:46:28Z"
+    generation: 1
+    labels:
+      app: ubi-echo
+    name: ubi-echo
+    namespace: do288-apps
+    resourceVersion: "60404285"
+    selfLink: /apis/image.openshift.io/v1/namespaces/do288-apps/imagestreams/ubi-echo
+    uid: 8e84fb6f-61b8-11ea-a9e2-0a580a810002
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/do288-apps/ubi-echo
+    publicDockerImageRepository: default-route-openshift-image-registry.apps.ocp-ap3.prod.nextcle.com/do288-apps/ubi-echo
+    tags:
+    - items:
+      - created: "2020-03-09T03:47:44Z"
+        dockerImageReference: image-registry.openshift-image-registry.svc:5000/do288-apps/ubi-echo@sha256:25e7520397d73c418d63882023c7c81aabb0d59a11e789aa213f878ba5b9181a
+        generation: 1
+        image: sha256:25e7520397d73c418d63882023c7c81aabb0d59a11e789aa213f878ba5b9181a
+      tag: latest
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2020-03-09T03:50:54Z"
+    labels:
+      app: php-helloworld
+    name: php-helloworld
+    namespace: do288-apps
+    resourceVersion: "60406105"
+    selfLink: /apis/build.openshift.io/v1/namespaces/do288-apps/buildconfigs/php-helloworld
+    uid: 2d57ba74-61b9-11ea-a88d-0a580a800002
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: php-helloworld:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: php-helloworld
+      git:
+        uri: https://github.com/hzhou1/DO288-apps.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: php:7.2
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: CkS2xIhNVJv1BSlrR_jo
+      type: GitHub
+    - generic:
+        secret: E_uYgrsWdgEfnTRZ4FYX
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: image-registry.openshift-image-registry.svc:5000/openshift/php@sha256:d691584cc4879bf03db936666ae267e482ee9af083a4f94122c172ad82790b8d
+      type: ImageChange
+  status:
+    lastVersion: 1
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2020-03-09T03:46:28Z"
+    labels:
+      app: ubi-echo
+    name: ubi-echo
+    namespace: do288-apps
+    resourceVersion: "60403563"
+    selfLink: /apis/build.openshift.io/v1/namespaces/do288-apps/buildconfigs/ubi-echo
+    uid: 8e95fec3-61b8-11ea-8cc9-0a580a820004
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ubi-echo:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: ubi-echo
+      git:
+        uri: https://github.com/hzhou1/DO288-apps.git
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: ubi:8.0
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: 1Da_3SWR5bLtiAu8C0YK
+      type: GitHub
+    - generic:
+        secret: _9DRpXbFdTd5e4oox6KT
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: registry.access.redhat.com/ubi8/ubi@sha256:8275e2ad7f458e329bdc8c0e7543cff1729998fe515a281d49638246de8e39ee
+      type: ImageChange
+  status:
+    lastVersion: 1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
